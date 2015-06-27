@@ -26,14 +26,14 @@ class MapboxBatchGeocoder(object):
             self.spawner = gevent.pool.Pool(parallelism)
 
     def _chunks(self, f, chunk_size):
-        batch = []
+        chunk = []
         for line in f:
-            batch.append(line)
-            if len(batch) >= chunk_size:
-                yield batch
-                batch = []
-        if len(batch):
-            yield batch
+            chunk.append(line)
+            if len(chunk) >= chunk_size:
+                yield chunk
+                chunk = []
+        if len(chunk):
+            yield chunk
 
     def _send(self, chunk, path):
         response = requests.get('http://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/{}.json?access_token={}'.format(';'.join([urllib.quote_plus(s.strip()) for s in chunk]), self.access_token))
