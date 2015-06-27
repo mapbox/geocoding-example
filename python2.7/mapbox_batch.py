@@ -51,7 +51,7 @@ class MapboxBatchGeocoder(object):
 
         Args:
             src (file-like): a file-like object of queries (one per line)
-            dst (str): the system path into which results will be placed (as .json files)
+            dst (str): the system path into which results will be placed (as Carmen GeoJSON files)
         """
         for (i, chunk) in enumerate(self._chunks(src, self.batch_size)):
             output_filename = '{}/{}.json'.format(dst, i)
