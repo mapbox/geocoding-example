@@ -41,7 +41,7 @@ class MapboxBatchGeocoder(object):
             print('- response received, saving to {}'.format(path))
             with open(path, 'w') as output_file:
                 json.dump(response.json(), output_file, indent=4)
-            self.ratelimit_delay = float(response.headers.get('x-rate-limit-interval')) / float(response.headers.get('x-rate-limit-limit')) + 0.1
+            self.ratelimit_delay = ((self.batch_size * float(response.headers.get('x-rate-limit-interval'))) / float(response.headers.get('x-rate-limit-limit'))) + 0.1
         else:
             print('# {} error: {}'.format(response.status_code, response.text))
 
