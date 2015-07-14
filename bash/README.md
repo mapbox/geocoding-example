@@ -10,5 +10,5 @@
 ## Usage
 
 ```
-MAPBOX_ACCESS_TOKEN=__your access token__ ./mapbox_geocode.sh '123 Main St. Smallville, KS'
+MAPBOX_ACCESS_TOKEN=__your access token__ ./mapbox_geocode.sh '1600 Pennsylvania Ave Washington, DC'
 ```
