@@ -1,6 +1,6 @@
 # Python 2/3
 
-`batch.py` reads queries from an input text file, one per line, and constructs parallelized batch queries.
+`mapbox_batch.py` reads queries from an input text file, one per line, and constructs parallelized batch queries.
 
 Results are stored in an output directory as JSON files.
 
