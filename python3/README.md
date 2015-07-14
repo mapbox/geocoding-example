@@ -1,1 +1,0 @@
-Python3 support for the `gevent` library is [very close](https://github.com/gevent/gevent/issues/38). If you need Python3 support urgently, please open a ticket. Until then, we're waiting/hoping for an implementation that works in Python 2.x and Python 3.x.
