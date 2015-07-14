@@ -1,4 +1,4 @@
-# Python 2.7
+# Python 2/3
 
 `batch.py` reads queries from an input text file, one per line, and constructs parallelized batch queries.
 
@@ -6,7 +6,7 @@ Results are stored in an output directory as JSON files.
 
 ## Requirements
 
-- [grequests](https://crate.io/packages/grequests/)
+- [gevent 1.1a2 or later](https://pypi.python.org/pypi/gevent)
 - A Mapbox access token with batch geocoding capabilities (email sales@mapbox.com)
 
 ## Installation
