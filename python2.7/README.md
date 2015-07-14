@@ -16,5 +16,5 @@ Results are stored in an output directory as JSON files.
 ## Usage
 
 ```
-MAPBOX_ACCESS_TOKEN=__your access token__ python batch.py input_file.txt /path/to/output/directory
+MAPBOX_ACCESS_TOKEN=__your access token__ python mapbox_batch.py input_file.txt /path/to/output/directory
 ```
