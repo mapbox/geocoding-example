@@ -6,6 +6,10 @@
 import __future__
 import json, sys, urllib, os.path, time
 import requests, gevent, gevent.pool
+try:
+    from urllib.parse import quote_plus as quote_plus
+except:
+    from urllib import quote_plus as quote_plus
 
 class MapboxBatchGeocoder(object):
     """
@@ -36,7 +40,7 @@ class MapboxBatchGeocoder(object):
             yield chunk
 
     def _send(self, chunk, path):
-        response = requests.get('http://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/{}.json?access_token={}'.format(';'.join([urllib.quote_plus(s.strip()) for s in chunk]), self.access_token))
+        response = requests.get('http://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/{}.json?access_token={}'.format(';'.join([quote_plus(s.strip()) for s in chunk]), self.access_token))
         if response.status_code == 200:
             print('- response received, saving to {}'.format(path))
             with open(path, 'w') as output_file:
