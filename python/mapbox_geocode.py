@@ -10,10 +10,9 @@ except:
     from urllib2 import urlopen as urlopen
 
 def geocode(mapbox_access_token, query):
-    """Submit a geocoding query to Mapbox's permanent geocoding endpoint."""
     """
-    Sample implementation of batch geocoding with rate limiting & concurrency.
-
+    Submit a geocoding query to Mapbox's permanent geocoding endpoint.
+    
     Args:
         mapbox_access_token (str): valid Mapbox access token with geocoding permissions
         query (str): input text to geocode
