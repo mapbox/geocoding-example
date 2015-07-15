@@ -4,17 +4,17 @@ var fs = require('fs'),
     through = require('through'),
     queue = require('queue-async');
 
-function MapboxBatchGeocoder(access_token, dest, batch_size, parallelism) {
+function MapboxBatchGeocoder(access_token, batch_size, parallelism) {
     batch_size = (typeof batch_size !== 'undefined') ?  batch_size : 50;
     parallelism = (typeof parallelism !== 'undefined') ? parallelism: 5;
 
     var queries = [],
         query_buffer = '',
-        batch_index = 0,
         q = queue(parallelism);
 
     function geocode(queries, callback) {
         q.defer(function(cb) {
+            var sent = +new Date();
             http.get({
                 host: 'api.tiles.mapbox.com',
                 path: '/v4/geocode/mapbox.places-permanent/' + queries.map(encodeURIComponent).join(';') + '.json?access_token=' + access_token
@@ -28,22 +28,19 @@ function MapboxBatchGeocoder(access_token, dest, batch_size, parallelism) {
                 });
                 response.on('end', function() {
                     callback(null, body);
-                    setTimeout(cb, ((batch_size * parseFloat(response.headers['x-rate-limit-interval'])) / parseFloat(response.headers['x-rate-limit-limit'])) + 0.1 );
+                    setTimeout(cb, ((1000 * batch_size * parallelism * parseFloat(response.headers['x-rate-limit-interval'])) / parseFloat(response.headers['x-rate-limit-limit'])) - (+new Date() - sent) );
                 });
             });
         });
     }
 
-    function record_result(out_path) {
-        return function(err, data) {
-            if (err) return console.log('Error: ' + err);
-            fs.writeFile(out_path, data, function() {
-                console.log('Saved ' + out_path);
-            });
-        };
+    function emit_result(err, data) {
+        if (err) return console.log('Error: ' + err);
+        this.emit('data', data);
     }
 
     function thru_out(data) {
+        var that = this;
         query_buffer += data;
         var potential_queries = query_buffer.split('\n');
         potential_queries.forEach(function(part, part_i) {
@@ -53,15 +50,14 @@ function MapboxBatchGeocoder(access_token, dest, batch_size, parallelism) {
                 queries.push(part);
 
             if (queries.length >= batch_size) {
-                geocode(queries, record_result(path.normalize(dest + '/' + batch_index + '.json')));
-                batch_index += 1;
+                geocode(queries, emit_result.bind(that));
                 queries = [];
             }
         });
     }
 
     function thru_end() {
-        if (queries.length > 0) geocode(queries, record_result(path.normalize(dest + '/' + batch_index + '.json')));
+        if (queries.length > 0) geocode(queries, emit_result.bind(this));
     }
 
     return through(thru_out, thru_end);
@@ -73,7 +69,13 @@ if (require.main === module) {
         process.exit(1);
     }
 
-    var mapbox = MapboxBatchGeocoder(process.env.MAPBOX_ACCESS_TOKEN, path.resolve(process.argv[3]), 50, 5);
+    var response_index = 0;
+    var mapbox = MapboxBatchGeocoder(process.env.MAPBOX_ACCESS_TOKEN, 50, 5);
+    mapbox.on('data', function(data) {
+        fs.writeFile(path.resolve(process.argv[3] + '/' + response_index + '.json'), data);
+        console.log('storing ' + path.normalize(process.argv[3] + '/' + response_index) + '.json');
+        response_index++;
+    });
     fs.createReadStream(process.argv[2]).pipe(mapbox);
 }
 
