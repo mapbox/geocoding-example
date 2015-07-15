@@ -1,0 +1,15 @@
+{
+  "name": "mapbox-batch-geocoder",
+  "version": "1.0.0",
+  "description": "Sample code to use Mapbox's permanent geocoding endpoint in batch mode",
+  "main": "mapbox-batch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "queue-async": "^1.0.7",
+    "through": "^2.3.8"
+  }
+}
