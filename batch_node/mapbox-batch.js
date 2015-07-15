@@ -1,66 +1,64 @@
 var fs = require('fs'),
-    http = require('http'),
+    https = require('https'),
     path = require('path'),
     through = require('through'),
     queue = require('queue-async');
 
-function MapboxBatchGeocoder(access_token, batch_size, parallelism) {
-    batch_size = (typeof batch_size !== 'undefined') ?  batch_size : 50;
-    parallelism = (typeof parallelism !== 'undefined') ? parallelism: 5;
+function MapboxBatchGeocoder(mapboxAccessToken, batchSize, parallelism) {
+    batchSize = (batchSize !== undefined) ?  batchSize : 50;
+    parallelism = (parallelism !== undefined) ? parallelism: 5;
 
     var queries = [],
-        query_buffer = '',
+        queryBuffer = '',
         q = queue(parallelism);
 
     function geocode(queries, callback) {
         q.defer(function(cb) {
             var sent = +new Date();
-            http.get({
-                host: 'api.tiles.mapbox.com',
-                path: '/v4/geocode/mapbox.places-permanent/' + queries.map(encodeURIComponent).join(';') + '.json?access_token=' + access_token
-            }, function(response) {
-                var body = '';
-                response.on('data', function(d) {
-                    body += d;
-                });
-                response.on('error', function(e) {
-                    callback(e);
-                });
-                response.on('end', function() {
-                    callback(null, body);
-                    setTimeout(cb, ((1000 * batch_size * parallelism * parseFloat(response.headers['x-rate-limit-interval'])) / parseFloat(response.headers['x-rate-limit-limit'])) - (+new Date() - sent) );
-                });
+            https.get('https://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/' + queries.map(encodeURIComponent).join(';') + '.json?access_token=' + mapboxAccessToken,
+                function(response) {
+                    var body = '';
+                    response.on('data', function(d) {
+                        body += d;
+                    });
+                    response.on('error', function(e) {
+                        callback(e);
+                    });
+                    response.on('end', function() {
+                        callback(null, body);
+                        setTimeout(cb, ((1000 * batchSize * parallelism * parseFloat(response.headers['x-rate-limit-interval'])) / parseFloat(response.headers['x-rate-limit-limit'])) - (+new Date() - sent) );
+                    });
             });
         });
     }
 
-    function emit_result(err, data) {
+    function emitResult(err, data) {
         if (err) return console.log('Error: ' + err);
         this.emit('data', data);
     }
 
-    function thru_out(data) {
+    function thruOut(data) {
         var that = this;
-        query_buffer += data;
-        var potential_queries = query_buffer.split('\n');
-        potential_queries.forEach(function(part, part_i) {
-            if (part_i === (potential_queries.length-1))
-                query_buffer = part;
+        queryBuffer += data;
+        var potentialQueries = queryBuffer.split('\n');
+        potentialQueries.forEach(function(part, part_i) {
+            if (part_i === (potentialQueries.length-1))
+                queryBuffer = part;
             else
                 queries.push(part);
 
-            if (queries.length >= batch_size) {
-                geocode(queries, emit_result.bind(that));
+            if (queries.length >= batchSize) {
+                geocode(queries, emitResult.bind(that));
                 queries = [];
             }
         });
     }
 
-    function thru_end() {
-        if (queries.length > 0) geocode(queries, emit_result.bind(this));
+    function thruEnd() {
+        if (queries.length > 0) geocode(queries, emitResult.bind(this));
     }
 
-    return through(thru_out, thru_end);
+    return through(thruOut, thruEnd);
 }
 
 if (require.main === module) {
@@ -69,12 +67,12 @@ if (require.main === module) {
         process.exit(1);
     }
 
-    var response_index = 0;
+    var responseIndex = 0;
     var mapbox = MapboxBatchGeocoder(process.env.MapboxAccessToken, 50, 5);
     mapbox.on('data', function(data) {
-        fs.writeFile(path.resolve(process.argv[3] + '/' + response_index + '.json'), data);
-        console.log('storing ' + path.normalize(process.argv[3] + '/' + response_index) + '.json');
-        response_index++;
+        fs.writeFile(path.resolve(process.argv[3] + '/' + responseIndex + '.json'), data);
+        console.log('storing ' + path.normalize(process.argv[3] + '/' + responseIndex) + '.json');
+        responseIndex++;
     });
     fs.createReadStream(process.argv[2]).pipe(mapbox);
 }

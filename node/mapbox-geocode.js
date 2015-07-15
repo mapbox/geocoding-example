@@ -1,21 +1,19 @@
-var http = require('http');
+var https = require('https');
 
-function geocode(mapbox_access_token, query, callback) {
-    http.get({
-        host: 'api.tiles.mapbox.com',
-        path: '/v4/geocode/mapbox.places-permanent/' + encodeURIComponent(query) + '.json?access_token=' + mapbox_access_token
-    }, function(response) {
-        var body = '';
-        response.on('data', function(d) {
-            body += d;
+function geocode(mapboxAccessToken, query, callback) {
+    https.get('https://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + encodeURIComponent(query) + '.json?access_token=' + mapboxAccessToken,
+        function(response) {
+            var body = '';
+            response.on('data', function(d) {
+                body += d;
+            });
+            response.on('error', function(e) {
+                callback(e);
+            });
+            response.on('end', function() {
+                callback(null, JSON.parse(body));
+            });
         });
-        response.on('error', function(e) {
-            callback(e);
-        });
-        response.on('end', function() {
-            callback(null, JSON.parse(body));
-        });
-    });
 }
 
 if (require.main === module) {

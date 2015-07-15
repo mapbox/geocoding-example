@@ -11,7 +11,14 @@ except:
 
 def geocode(mapbox_access_token, query):
     """Submit a geocoding query to Mapbox's permanent geocoding endpoint."""
-    resp = urlopen('http://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/{query}.json?access_token={token}'.format(query=quote_plus(query), token=mapbox_access_token))
+    """
+    Sample implementation of batch geocoding with rate limiting & concurrency.
+
+    Args:
+        mapbox_access_token (str): valid Mapbox access token with geocoding permissions
+        query (str): input text to geocode
+    """
+    resp = urlopen('https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{query}.json?access_token={token}'.format(query=quote_plus(query), token=mapbox_access_token))
     return json.loads(resp.read().decode('utf-8'))
 
 if __name__ == '__main__':

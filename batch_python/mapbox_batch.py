@@ -16,12 +16,12 @@ class MapboxBatchGeocoder(object):
     Sample implementation of batch geocoding with rate limiting & concurrency.
 
     Args:
-        access_token (str): valid Mapbox access token with permanent geocoding permissions
+        mapbox_access_token (str): valid Mapbox access token with permanent geocoding permissions
         batch_size (Optional[int]): number of features to geocode per query
         parallelism (Optional[int]): number of simultaneous http connections to use. None = no limit.
     """
-    def __init__(self, access_token, batch_size=50, parallelism=5):
-        self.access_token = access_token
+    def __init__(self, mapbox_access_token, batch_size=50, parallelism=5):
+        self.mapbox_access_token = mapbox_access_token
         self.batch_size = batch_size
         self.ratelimit_delay = None # initial value; ignored after first response
         if parallelism is None: # None = use as many http connections as ratelimit allows
@@ -40,7 +40,7 @@ class MapboxBatchGeocoder(object):
             yield chunk
 
     def _send(self, chunk, path):
-        response = requests.get('http://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/{}.json?access_token={}'.format(';'.join([quote_plus(s.strip()) for s in chunk]), self.access_token))
+        response = requests.get('https://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/{}.json?access_token={}'.format(';'.join([quote_plus(s.strip()) for s in chunk]), self.mapbox_access_token))
         if response.status_code == 200:
             print('- response received, saving to {}'.format(path))
             with open(path, 'w') as output_file:
