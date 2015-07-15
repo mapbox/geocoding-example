@@ -23,8 +23,7 @@ MapboxAccessToken=YOUR_ACCESS_TOKEN node mapbox-batch.js input_file.txt /path/to
 
 Programmatic:
 ```
-var fs = require('fs'),
-    mapbox = require('./mapbox-batch.js');
+var mapbox = require('./mapbox-batch.js');
 
 var geocoder = mapbox('YOUR_ACCESS_TOKEN');
 geocoder.on('data', function(data) {
