@@ -11,7 +11,7 @@ except:
 
 def geocode(mapbox_access_token, query):
     """
-    Submit a geocoding query to Mapbox's permanent geocoding endpoint.
+    Submit a geocoding query to Mapbox's geocoder.
     
     Args:
         mapbox_access_token (str): valid Mapbox access token with geocoding permissions
