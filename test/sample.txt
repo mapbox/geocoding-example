@@ -1,0 +1,75 @@
+-94.945599,29.699342,1034 Bay Oaks Harbor Dr Baytown
+-96.354816,30.63545,3515 S College Ave Bryan
+-81.627944,41.009117,1058 Wooster Rd W Barberton
+-118.189003,33.928799,11111 Harris Ave Lynwood
+-84.60042,33.858322,1676 Mulkey Rd SW Austell
+-97.738279,30.210142,4109 Todd Ln Austin
+-95.314282,32.345561,411 S Glenwood Blvd Tyler
+-75.606636,38.362255,560 Riverside Dr Salisbury
+-122.700635,45.525459,2445 NW Westover Rd Portland
+-72.744322,41.759584,12 Lasalle Rd Hartford
+-122.32571,47.609773,1011 Boren Ave Seattle
+-77.795722,35.938927,348 S Washington St Rocky Mount
+-118.563551,34.388603,25736 Player Dr Unit R14 Valencia
+-73.633198,40.723365,520 Franklin Ave Garden City
+-99.919886,34.682098,120 N 2nd St Hollis
+-90.651754,38.515006,17290 Hilltop Ridge Dr Eureka
+-104.794483,38.796845,2835 Janitell Rd Colorado Springs
+-76.183985,39.523655,939 Beards Hill Rd Aberdeen
+-80.143829,25.794232,1930 Bay Rd Miami Beach
+-83.381009,33.940548,100 Pinecrest Dr Athens
+-87.63238,41.888633,325 N La Salle Drive Suite 450 Chicago
+-121.930755,37.345121,1179 Sherwood Ave San Jose
+-83.764063,32.878563,6501 Peake Rd Macon
+-97.772737,30.221144,4315 S 1st St Austin
+-89.889491,35.105921,5180 Park Ave Memphis
+-118.263817,33.831524,650 E Carson St Carson
+-79.083975,38.173681,1107 Pine Glen Rd Staunton
+-84.038382,33.969805,1033 Colony Creek Dr Lawrenceville
+-77.51494,38.806271,10342 Battleview Pkwy Manassas
+-83.018873,40.075739,5540 N High St Columbus
+-90.404707,38.631346,5 Blaytonn Ln Saint Louis
+-75.406363,39.870275,5002 Jefferson Dr Brookhaven
+-80.254585,25.804418,3630 NW North River Dr Miami
+-73.983334,40.781406,305 W End Ave New York
+-74.105028,40.019367,10 Farragut Dr Brick
+-84.554513,39.587299,171 Main St West Elkton
+-78.430519,40.44567,3134 Old 6th Ave N Duncansville
+-112.125964,33.492199,3107 W Clarendon Ave Phoenix
+-73.992757,40.698062,92 Henry St Brooklyn
+-81.903992,41.476213,25735 1st St Westlake
+-84.147334,33.440193,280 Griffin St Mcdonough
+-116.37109,33.722113,74020 Alessandro Dr Palm Desert
+-74.940561,40.233958,2700 S Eagle Rd Newtown
+-81.314896,28.694089,1255 Belle Ave Winter Springs
+-111.864641,33.248237,"3920 South Alma School Road, Suite 5 Chandler"
+-86.478095,36.375861,180 Belvedere Dr N Gallatin
+-86.739977,36.201015,2901 Gallatin Pike Nashville
+-85.53993,40.482588,4853 S 700 E Marion
+-73.540651,40.66051,2326 Merrick Rd Merrick
+-77.417898,37.553858,2305 Whitcomb St Richmond
+-81.344373,35.238642,219 S Battleground Ave Kings Mountain
+-79.900733,39.936493,188 Murphy Rd Adah
+-117.098407,32.677664,943 Highland Ave National City
+-157.878883,21.323581,1451 Kalani St Honolulu
+-74.122038,40.906138,92 Grove St Elmwood Park
+-73.959297,40.814701,3165 Broadway New York
+-115.25135,36.219406,3250 N Tenaya Way Suite 103 Las Vegas
+-122.182499,37.747822,930 88th Ave Oakland
+-90.253711,38.774726,11026 Linnell Dr Saint Louis
+-73.807487,42.764911,1050 Troy Schenectady Rd Latham
+-77.659265,43.143934,67 Stanton St Rochester
+-83.977559,43.46278,3165 Cabaret Trl S Saginaw
+-97.654518,35.249465,3528 W Fox Ln Newcastle
+-74.032392,41.040068,25 W Grand Ave Montvale
+-81.232462,35.782027,1234 Turtle Dove Rd Conover
+-92.116972,43.370952,214 S Elm St Cresco
+-117.267375,34.471002,18215 Bear Valley Rd Hesperia
+-77.0326,38.905998,1100 New York Ave NW Washington
+-93.272045,45.103132,7449 E River Rd Fridley
+-80.142473,26.010388,1750 S Young Cir Hollywood
+-76.501811,42.45169,214 W Lincoln St Ithaca
+-74.7483,40.211284,1 Swan St Trenton
+-157.842197,21.301301,1296 S Beretania St Honolulu
+-71.060821,42.35551,8 Winter St Boston
+-73.324699,40.8773,75 Larkfield Rd East Northport

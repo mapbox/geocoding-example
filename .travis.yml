@@ -1,0 +1,13 @@
+language: node_js
+cache: apt
+node_js:
+- 0.10.28
+before_install:
+- sudo apt-get update -qq
+- sudo apt-get install bc
+- sudo apt-get install -qq -y python-pip
+script:
+- "./test/test.sh"
+env:
+  global:
+    secure: aPWsbDP0CiP3qvrRz1qf7NwL+zQWnT9YY+pAxA1wTT43byp1/0BeGDC7T5uGJRi207VsTbnoJ2lgdzlAqes60MRonqwl04ftj5OMpttDcHeiMYZp1Ebm2ySVSpmz2TOVGLVX2s1Q/xCnag4P9l/llOqRUkvJrb/W2GBFm2A36sN79163xVUd5THdujv8pBeA+BY2G+ajdvo0Wos0MZNk+B3ZJHUiI5H5Ki3valtlz5TzOmqi0ICME/PaMC/nDDCGhXQXhVh0ZozTC6BMecBd543lY55NoB5GaM0ulptrttCiol39nRrOSg8+zef+7oY5TbvteRxQXAdXv1ymnkqhURKX8gAi1Pas3cvK/mRdk2f5EuvyKkGIY57fbSkU7ekJLkVubtc+RDEJBNhdamDtTkenCjE+kuNCfb1r4WnyuP/tagVxs1/+ZJliTxFwSyVZEVGrT03qgppSgA/MPn1Hf2gayUryy3keObnnNWf2qPTuCGQfZDiYsoNVlULuDh1jC3jSp315vo3Is1VOOtVkfFvrgcWf8PuXlb5TnaPvUt6M5X4hguoSndPwL18lxp/4R1KDxLIbW3J+PKc3OSuwPlwo0Z9IaGAm4CkqK3vCa+saDHD4LZmywxbSCkRaEJMDwUlicaYvAGANWd8GJKxGNeZnf69jThZLTxVqHU8DqeY=
