@@ -64,13 +64,13 @@ function MapboxBatchGeocoder(access_token, batch_size, parallelism) {
 }
 
 if (require.main === module) {
-    if (!process.env.MAPBOX_ACCESS_TOKEN) {
-        console.log('environment variable MAPBOX_ACCESS_TOKEN must be set');
+    if (!process.env.MapboxAccessToken) {
+        console.log('environment variable MapboxAccessToken must be set');
         process.exit(1);
     }
 
     var response_index = 0;
-    var mapbox = MapboxBatchGeocoder(process.env.MAPBOX_ACCESS_TOKEN, 50, 5);
+    var mapbox = MapboxBatchGeocoder(process.env.MapboxAccessToken, 50, 5);
     mapbox.on('data', function(data) {
         fs.writeFile(path.resolve(process.argv[3] + '/' + response_index + '.json'), data);
         console.log('storing ' + path.normalize(process.argv[3] + '/' + response_index) + '.json');

@@ -66,9 +66,9 @@ class MapboxBatchGeocoder(object):
             gevent.sleep(self.ratelimit_delay)
 
 if __name__ == '__main__':
-    MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', False)
+    MAPBOX_ACCESS_TOKEN = os.environ.get('MapboxAccessToken', False)
     if not MAPBOX_ACCESS_TOKEN:
-        print('environment variable MAPBOX_ACCESS_TOKEN must be set')
+        print('environment variable MapboxAccessToken must be set')
         sys.exit(1)
 
     (input_path, output_path) = map(os.path.abspath, sys.argv[1:3])

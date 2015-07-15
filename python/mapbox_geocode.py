@@ -15,13 +15,13 @@ def geocode(mapbox_access_token, query):
     return json.loads(resp.read().decode('utf-8'))
 
 if __name__ == '__main__':
-    MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', False)
-    if not MAPBOX_ACCESS_TOKEN:
-        print('environment variable MAPBOX_ACCESS_TOKEN must be set')
+    token = os.environ.get('MapboxAccessToken', False)
+    if not token:
+        print('environment variable MapboxAccessToken must be set')
         sys.exit(1)
 
     # geocode
-    result = geocode(MAPBOX_ACCESS_TOKEN, quote_plus(sys.argv[1]))
+    result = geocode(token, sys.argv[1])
 
     # print result
     print(json.dumps(result, indent=2))

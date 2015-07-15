@@ -19,11 +19,11 @@ function geocode(mapbox_access_token, query, callback) {
 }
 
 if (require.main === module) {
-    if (!process.env.MAPBOX_ACCESS_TOKEN) {
-        console.log('environment variable MAPBOX_ACCESS_TOKEN must be set');
+    if (!process.env.MapboxAccessToken) {
+        console.log('environment variable MapboxAccessToken must be set');
         process.exit(1);
     }
-    geocode(process.env.MAPBOX_ACCESS_TOKEN, process.argv[2], function(err, result) {
+    geocode(process.env.MapboxAccessToken, process.argv[2], function(err, result) {
         if (err) return console.log('Error: ' + err);
         console.log(JSON.stringify(result, null, 2));
     });
