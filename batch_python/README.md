@@ -7,6 +7,7 @@ Results are stored in an output directory as JSON files.
 ## Requirements
 
 - [gevent 1.1a2 or later](https://pypi.python.org/pypi/gevent)
+- [requests](http://docs.python-requests.org/en/latest/)
 - A Mapbox access token with batch geocoding capabilities (email sales@mapbox.com)
 
 ## Installation
@@ -17,14 +18,14 @@ Results are stored in an output directory as JSON files.
 
 Command line:
 ```
-MAPBOX_ACCESS_TOKEN=__your access token__ python mapbox_batch.py input_file.txt /path/to/output/directory
+MapboxAccessToken=YOUR_ACCESS_TOKEN python mapbox_batch.py input_file.txt /path/to/output/directory
 ```
 
 Programmatic:
 ```
 from mapbox_batch import MapboxBatchGeocoder
 
-mapbox = MapboxBatchGeocoder(MAPBOX_ACCESS_TOKEN)
+mapbox = MapboxBatchGeocoder('YOUR_ACCESS_TOKEN')
 with open('/path/to/input_file.txt') as input_file:
     mapbox.geocode(input_file, '/path/to/output/directory/')
 ```

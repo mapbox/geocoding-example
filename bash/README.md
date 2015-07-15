@@ -5,10 +5,10 @@
 ## Requirements
 
 - the `hexdump` utility (standard on OS X, Ubuntu, Debian & most other distributions)
-- A Mapbox access token with batch geocoding capabilities (email sales@mapbox.com)
+- A Mapbox access token with geocoding capabilities
 
 ## Usage
 
 ```
-MAPBOX_ACCESS_TOKEN=__your access token__ ./mapbox_geocode.sh '1600 Pennsylvania Ave Washington, DC'
+MapboxAccessToken=YOUR_ACCESS_TOKEN ./mapbox_geocode.sh '1600 Pennsylvania Ave Washington, DC'
 ```

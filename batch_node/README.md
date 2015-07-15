@@ -1,4 +1,4 @@
-# Node.js (batch mode)
+# Node.js - Mapbox Batch Geocoder
 
 `mapbox_batch.js` reads queries from an input text file, one per line, and constructs parallelized batch queries.
 
@@ -18,7 +18,7 @@ Results are stored in an output directory as JSON files.
 
 Command line:
 ```
-MAPBOX_ACCESS_TOKEN=__your access token__ node mapbox-batch.js input_file.txt /path/to/output/directory
+MapboxAccessToken=YOUR_ACCESS_TOKEN node mapbox-batch.js input_file.txt /path/to/output/directory
 ```
 
 Programmatic:

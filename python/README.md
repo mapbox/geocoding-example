@@ -1,17 +1,17 @@
-# Python 2/3
+# Python 2/3 - Mapbox Geocoder
 
 `mapbox_geocode.py` takes a single query as a parameter and outputs the result.
 
 ## Requirements
 
 - Python 2/3
-- A Mapbox access token with batch geocoding capabilities (email sales@mapbox.com)
+- A Mapbox access token with geocoding capabilities
 
 ## Usage
 
 Command line:
 ```
-MAPBOX_ACCESS_TOKEN=__your access token__ python ./mapbox_geocode.py '1600 Pennsylvania Ave Washington, DC'
+MapboxAccessToken=YOUR_ACCESS_TOKEN python ./mapbox_geocode.py '1600 Pennsylvania Ave Washington, DC'
 ```
 
 Programmatic:

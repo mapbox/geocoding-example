@@ -1,17 +1,17 @@
-# Node.js
+# Node.js - Mapbox Geocoder
 
 `mapbox-geocode.js` takes a single query as a parameter and outputs the result.
 
 ## Requirements
 
 - Node.js
-- A Mapbox access token with batch geocoding capabilities (email sales@mapbox.com)
+- A Mapbox access token with geocoding capabilities
 
 ## Usage
 
 Command line:
 ```
-MAPBOX_ACCESS_TOKEN=__your access token__ node ./mapbox-geocode.js '1600 Pennsylvania Ave Washington, DC'
+MapboxAccessToken=YOUR_ACCESS_TOKEN node ./mapbox-geocode.js '1600 Pennsylvania Ave Washington, DC'
 ```
 
 Programmatic:
