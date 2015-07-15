@@ -15,6 +15,16 @@ Results are stored in an output directory as JSON files.
 
 ## Usage
 
+Command line:
 ```
 MAPBOX_ACCESS_TOKEN=__your access token__ python mapbox_batch.py input_file.txt /path/to/output/directory
+```
+
+Programmatic:
+```
+from mapbox_batch import MapboxBatchGeocoder
+
+mapbox = MapboxBatchGeocoder(MAPBOX_ACCESS_TOKEN)
+with open('/path/to/input_file.txt') as input_file:
+    mapbox.geocode(input_file, '/path/to/output/directory/')
 ```
