@@ -119,7 +119,6 @@ rm $OUT_DIR/* || true
 
 # ----- teardown -----
 
-# teardown
 rm -rf $OUT_DIR $SAMPLE_FILE
 rm -rf $(dirname $0)/../node/node_modules/
 rm -rf $(dirname $0)/../batch_node/node_modules/

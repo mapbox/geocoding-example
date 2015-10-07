@@ -1,8 +1,3 @@
-# EXAMPLE BATCH GEOCODING SCRIPT
-# ------------------------------
-# Usage: python mapbox_batch.py input.txt /path/to/output_dir/
-# Note: script requires that the environment variable MAPBOX_ACCESS_TOKEN be set
-
 import __future__
 import json, sys, urllib, os.path, time
 import requests, gevent, gevent.pool
