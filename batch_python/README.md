@@ -1,4 +1,4 @@
-# Python 2/3
+# Python 2/3 - Mapbox Batch Geocoder
 
 `mapbox_batch.py` reads queries from an input text file, one per line, and constructs parallelized batch queries.
 
