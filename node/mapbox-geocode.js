@@ -1,7 +1,7 @@
 var https = require('https');
 
 function geocode(mapboxAccessToken, query, callback) {
-    https.get('https://api.tiles.mapbox.com/v4/geocode/mapbox.places/' + encodeURIComponent(query) + '.json?access_token=' + mapboxAccessToken,
+    https.get('https://api.tiles.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(query) + '.json?access_token=' + mapboxAccessToken,
         function(response) {
             var body = '';
             response.on('data', function(d) {

@@ -24,6 +24,28 @@ function valid_batch_response() {
     fi
 }
 
+function cleanslate() {
+    mkdir -p $OUT_DIR || true
+    rm -f $OUT_DIR/* || true
+
+    rm -rf $(dirname $0)/../node/node_modules/
+    rm -rf $(dirname $0)/../batch_node/node_modules/
+    rm -rf $(dirname $0)/../python/.virtualenv_*/
+    rm -rf $(dirname $0)/../batch_python/.virtualenv_*/
+}
+
+
+MapboxAccessToken=${MapboxAccessToken:-""}
+if [ -z "$MapboxAccessToken" ]; then
+    echo "environment variable MapboxAccessToken must be set"
+    exit 1
+fi
+
+OUT_DIR="$(dirname $0)/out"
+SAMPLE_FILE="$(dirname $0)/sample_`date +"%s"`.txt"
+
+cleanslate
+
 CODE=0
 QUERY='1714 14th St NW Washington, DC 20009'
 PYTHONS='python2.7 python3'
@@ -51,6 +73,7 @@ done
 
 # python
 for PYTHONX in $PYTHONS; do
+    echo "# testing basic geocoding / $PYTHONX"
     RESPONSE="`$(dirname $0)/../python/.virtualenv_${PYTHONX}/bin/python $(dirname $0)/../python/mapbox_geocode.py "$QUERY"`"
     valid_response "$RESPONSE"
     if [ "$VALID" -ne 0 ]; then
@@ -62,6 +85,7 @@ for PYTHONX in $PYTHONS; do
 done
 
 # node
+echo "# testing basic geocoding / node"
 RESPONSE="`node $(dirname $0)/../node/mapbox-geocode.js "$QUERY"`"
 valid_response "$RESPONSE"
 if [ "$VALID" -ne 0 ]; then
@@ -72,6 +96,7 @@ else
 fi
 
 # bash
+echo "# testing basic geocoding / bash"
 RESPONSE="`bash $(dirname $0)/../bash/mapbox_geocode.sh "$QUERY"`"
 valid_response "$RESPONSE"
 if [ "$VALID" -ne 0 ]; then
@@ -87,14 +112,11 @@ SHUF="`which shuf || true`"
 if [ -z "$SHUF" ]; then
     SHUF="`which gshuf`"
 fi
-OUT_DIR="$(dirname $0)/out"
-mkdir -p $OUT_DIR || true
-rm -f $OUT_DIR/* || true
-SAMPLE_FILE="$(dirname $0)/sample_`date +"%s"`.txt"
 $SHUF $(dirname $0)/sample.txt > $SAMPLE_FILE
 
 # python
 for PYTHONX in $PYTHONS; do
+    echo "# testing batch geocoding / $PYTHONX"
     $(dirname $0)/../batch_python/.virtualenv_${PYTHONX}/bin/python $(dirname $0)/../batch_python/mapbox_batch.py $SAMPLE_FILE $OUT_DIR
     valid_batch_response $SAMPLE_FILE $OUT_DIR
     if [ "$VALID" -ne 0 ]; then
@@ -107,6 +129,7 @@ for PYTHONX in $PYTHONS; do
 done
 
 # node
+echo "# testing batch geocoding / node"
 node $(dirname $0)/../batch_node/mapbox-batch.js $SAMPLE_FILE $OUT_DIR
 valid_batch_response $SAMPLE_FILE $OUT_DIR
 if [ "$VALID" -ne 0 ]; then
@@ -119,10 +142,9 @@ rm $OUT_DIR/* || true
 
 # ----- teardown -----
 
+cleanslate
+
 rm -rf $OUT_DIR $SAMPLE_FILE
-rm -rf $(dirname $0)/../node/node_modules/
-rm -rf $(dirname $0)/../batch_node/node_modules/
-rm -rf $(dirname $0)/../python/.virtualenv_*/
-rm -rf $(dirname $0)/../batch_python/.virtualenv_*/
+rm -rf $(dirname $0)/sample_*.txt
 
 exit $CODE
