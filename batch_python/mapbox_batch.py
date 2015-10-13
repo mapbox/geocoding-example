@@ -35,7 +35,7 @@ class MapboxBatchGeocoder(object):
             yield chunk
 
     def _send(self, chunk, path):
-        response = requests.get('https://api.tiles.mapbox.com/v4/geocode/mapbox.places-permanent/{}.json?access_token={}'.format(';'.join([quote_plus(s.strip()) for s in chunk]), self.mapbox_access_token))
+        response = requests.get('https://api.tiles.mapbox.com/geocoding/v5/mapbox.places-permanent/{}.json?access_token={}'.format(';'.join([quote_plus(s.strip()) for s in chunk]), self.mapbox_access_token))
         if response.status_code == 200:
             print('- response received, saving to {}'.format(path))
             with open(path, 'w') as output_file:
