@@ -15,7 +15,7 @@ function MapboxBatchGeocoder(mapboxAccessToken, batchSize, parallelism) {
     function geocode(queries, callback) {
         q.defer(function(cb) {
             var sent = +new Date();
-            https.get('https://api.tiles.mapbox.com/geocoding/v5/mapbox.places-permanent/' + queries.map(encodeURIComponent).join(';') + '.json?access_token=' + mapboxAccessToken,
+            https.get('https://api.mapbox.com/geocoding/v5/mapbox.places-permanent/' + queries.map(encodeURIComponent).join(';') + '.json?access_token=' + mapboxAccessToken,
                 function(response) {
                     var body = '';
                     response.on('data', function(d) {
