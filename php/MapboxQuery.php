@@ -3,7 +3,7 @@
 
 /**
  * Represents a top level Mapbox query. Knows how to represent the query as URL
- * @author Tyler
+ * @author twbell
  * @package Mapbox
  * @license Apache 2.0
  */

@@ -14,7 +14,7 @@ if ($argv[1] == "--help" || $argv[1] == "--h"){
 } else {
 	if (isset($argv[1])){
 		$token = $argv[1];
-		if (isset($argv[2])){$logFile = $argv[3];} else {$logFile="";}
+		if (isset($argv[2])){$logFile = $argv[2];} else {$logFile="";}
 	} else {
 		echo "Token required:\n";
 		echo "Usage: php test.php <token> [log file]\n";

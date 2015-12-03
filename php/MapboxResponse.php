@@ -1,7 +1,7 @@
 <?php
 /**
  * Basic response from Mapbox API
- * @author Tyler
+ * @author twbell
  * @package Mapbox
  * @license Apache 2.0
  */
@@ -17,8 +17,9 @@ abstract class MapboxResponse extends ArrayIterator {
    */
   public function __construct($apiResponse) {
     try {
-    	$this->json = $apiResponse['body'];
+    	$this->json = $apiResponse['body']; //raw json
     	$this->body = json_decode($apiResponse['body'],true);
+    	$this->info = $apiResponse['info'];
     	$this->headers = $apiResponse['headers'];
     	$this->parseResponse($apiResponse);
     } catch (Exception $e) {
@@ -37,19 +38,11 @@ abstract class MapboxResponse extends ArrayIterator {
 	}
 
 	/**
-	 * Get response headers sent by Mapbox
-	 * @return array
-	 */
-	public function getResponseHeaders(){
-		return $this->headers;
-	}
-
-	/**
 	 * Get HTTP response code
 	 * @return int
 	 */
 	public function getResponseCode(){
-		return $this->headers['code'];
+		return $this->info['code'];
 	}
 
 	/**
@@ -57,7 +50,7 @@ abstract class MapboxResponse extends ArrayIterator {
 	 * Note this tests for a successful http call, not a successful program operation
 	 */
 	 public function success(){
-	 	if ($this->headers['code'] == 200){
+	 	if ($this->info['code'] == 200){
 	 		return true;
 	 	} else {
 	 		return false;
@@ -94,7 +87,7 @@ abstract class MapboxResponse extends ArrayIterator {
 	   * @return string
 	   */
 	  public function getRequest(){
-	  	return $this->headers['request']['unencoded'];
+	  	return $this->info['request']['unencoded'];
 	  }
 
 	  /**
@@ -102,7 +95,7 @@ abstract class MapboxResponse extends ArrayIterator {
 	   * @return string
 	   */
 	  public function getRawRequest(){
-	  	return $this->headers['request']['encoded'];
+	  	return $this->info['request']['encoded'];
 	  }
 	  
 	   /**
@@ -112,6 +105,14 @@ abstract class MapboxResponse extends ArrayIterator {
 	  public function getHeaders(){
 	  	return $this->headers;
 	  }      
+	  
+	   /**
+	   * Get information on the call
+	   * @return string
+	   */
+	  public function getInfo(){
+	  	return $this->info;
+	  }   
 
 }
 ?>

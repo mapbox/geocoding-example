@@ -1,26 +1,25 @@
 <?php
 /**
- * Requires PHP5, SPL (for autoloading)
+ * Requires PHP5, SPL, cURL (for autoloading)
  */
-
 
 /**
  * Represents the public Mapbox API. Supports running queries against Mapbox and inspecting the response. 
- * @author Tyler
+ * @author twbell
  * @package Mapbox
  * @license Apache 2.0
  */
 class Mapbox {
 
-	protected $home = "https://api.tiles.mapbox.com"; //URL base
+	protected $home = "https://api.mapbox.com"; //URL base
 	protected $driverVersion = "mapbox-php-driver-v0.1.0";  //current version of the php wrapper
-	protected $versions = array('geocoder'=>'v4'); //versions for endpoint
+	protected $versions = array('geocoder'=>'v5'); //versions for endpoint
 	protected $debug = false; //debug flag
-	public $token; //access token
+	protected $token; //access token
 	protected $curlTimeout = 0; //maximum number of seconds for the network function to execute (0 = no timeout)
 	protected $connectTimeout = 0; //maximum number of seconds to connect to the server (0 = no timeout)
 	protected $placeTypes = array('country','region','postcode','place','neighborhood','address','poi');
-	protected $permanentGeocodes = false;
+	protected $permanentGeocodes = false; //changes geocding endpoint when flipped
 
 	/**
 	 * Constructor. Creates authenticated access to Mapbox.
@@ -33,6 +32,11 @@ class Mapbox {
 			'MapboxAutoload'
 		));
 		$this->token = $token;
+	}
+
+	/** Gets token **/
+	public function getToken(){
+		return $this->token;
 	}
 
 	/**
@@ -73,11 +77,11 @@ class Mapbox {
 	}
 	
 	protected function urlForGeocode($query) {
-		return $this->home ."/".$this->versions['geocoder']."/geocode/".$this->getGeocoderDataSet()."/" . urlencode($query).".json";
+		return $this->home ."/geocoding/".$this->versions['geocoder']."/".$this->getGeocoderDataSet()."/" . urlencode($query).".json";
 	}
 	
 	protected function urlForReverseGeocode($longitude, $latitude) {
-		return $this->home ."/".$this->versions['geocoder']."/geocode/".$this->getGeocoderDataSet()."/" .$longitude.",".$latitude.".json";
+		return $this->home ."/geocoding/".$this->versions['geocoder']."/".$this->getGeocoderDataSet()."/" .$longitude.",".$latitude.".json";
 	}
 
 	/**
@@ -101,7 +105,7 @@ class Mapbox {
 		return new GeocodeResponse($this->request($url,"GET",$params));
 	}
 	
-
+	/** Different endpoint for permanent geocodes **/
 	public function geocodePermanent($query, $types=array(), $proximity=array()) {
 		$this->permanentGeocodes = true;
 		return $this->geocode($query, $types=array(), $proximity=array()); 
@@ -132,19 +136,23 @@ class Mapbox {
      * @throws MapboxApiException
      */
     protected function request($urlStr, $requestMethod="GET", $params = null) {
-    		//custom headers
+    		//custom input headers
 		$curlOptions[CURLOPT_HTTPHEADER] = array ();
 		$curlOptions[CURLOPT_HTTPHEADER][] = "X-Mapbox-Lib: " . $this->driverVersion;
 		if ($requestMethod == "POST") {
 			$curlOptions[CURLOPT_HTTPHEADER][] = "Content-Type: " . "application/x-www-form-urlencoded";
 		}
 		
+		//request curl returns server headers
+		$curlOptions[CURLOPT_RETURNTRANSFER] = 1;
+    		$curlOptions[CURLOPT_HEADER] = 1;
+		
 		//other curl options
 		$curlOptions[CURLOPT_CONNECTTIMEOUT] = $this->connectTimeout; //connection timeout
 		$curlOptions[CURLOPT_TIMEOUT] = $this->curlTimeout; //execution timeout
 		$curlOptions[CURLOPT_RETURNTRANSFER] = 1; //return contents on success
 
-		//format params and append
+		//format query parameters and append
 		$formattedParams = null;
 		if (count($params)>0){
 			foreach ($params as $key=>$value){
@@ -176,6 +184,7 @@ class Mapbox {
 		$info['request']['encoded'] = $urlStr;
 		$info['request']['unencoded'] = urldecode($urlStr);
 		$info['driver'] = $this->driverVersion;
+		$info['request']['method'] = $requestMethod;
 		
 		//make request
 		try {
@@ -184,77 +193,72 @@ class Mapbox {
 			$callEnd = microtime(true);
 		} catch (Exception $e) {
 			//catch client exception
-			$info['method'] = $requestMethod;
 			$info['message'] = "Service exception.  Client did not connect and returned '" . $e->getMessage() . "'";
 			$MapboxE = new MapboxApiException($info);
 			throw $MapboxE;
 		}
 		
-		//extract curl headers
-		$info['connect_time'] = curl_getinfo($ch, CURLINFO_CONNECT_TIME);
-		$info['code'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		//add execution time
+		$info['request']['time'] = $callEnd - $callStart;
+		
+		//extract Mapbox headers
+		$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    		$header = substr($result, 0, $headerSize);
+    		$result = substr($result, $headerSize);
+    		$headers = explode(PHP_EOL, $header);
+    		$headers = array_filter($headers,"trim");
+    		
+		//extract curl info
+		$info['code'] = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if ($params) {
 			$info['request']['parameters'] = $params;
 		}
 		
 		//catch server exception & load up on debug data
 		if ($info['code'] >= 400 | $this->debug) {
-			$body = json_decode($result, true);
 			//get a boatload of debug data
-			$info['method'] = $requestMethod;
+			$info['headers'] = $headers;
 			$info['curl'] = curl_getinfo($ch);
-			//add execution time
-			$info['time'] = $callEnd - $callStart;
 			//write debug info to stderr if debug mode on
 			if ($this->debug) {
 				$info = array_filter($info); //remove empty elements for readability
 				file_put_contents('php://stderr', "Debug " . print_r($info, true));
 			}			
-			//chuck exception
+			//chuck exception with some helpful errors for the most common codes
 			if ($info['code'] >= 400){
-				if ($info['code'] == 401){
+				switch ($info['code']) {
+				    case 401:
 					$info['message'] = "401 Unauthorized; check your access token";
-				} else if ($info['code'] == 403){
-					$info['message'] = "403 Unauthorized; you may not have access to this resource";
-				} else {
-					$info['message'] = "HTTP code ".$info['code'];
+					break;
+				    case 403:
+					$info['message'] = "403 Verboten; you do not have access to this resource -- some endpoints require authorization from Mapbox";
+					break;
+				 case 429:
+					$info['message'] = "429 Enhance your calm.  Exceeding rate limits -- use this::debug to see server response headers";
+					break;	
+				case 422:
+					$info['message'] = "422 Unprocessable Entity; check your parameter values, esp swapped lat/lons, because we all do this";
+					break;		
+				 default:
+					$info['message'] = "HTTP code ".$info['code'].": use this::debug to see server response headers";
+					break;
 				}
 				$MapboxE = new MapboxApiException($info);
 				throw $MapboxE;
 			}
 		}
-		//check for deprecation, add to stdout
-		if ($info['code'] == 301){
-			//file_put_contents('php://stderr', "Entity is deprecated");
-		}
-		
+
 		//close curl
 		curl_close($ch);
 		
 		//format
-		$res['headers'] = $info;
+		$res['info'] = $info;
+		$res['headers'] = $headers;
 		$res['body'] = $result;
 		
 		return $res;
 	}
 
-	/**
-	 * Converts and encodes parameter array to a query string
-	 * @return string
-	 */
-	protected function toQueryString($parameters){
-		if (count($parameters) > 0){
-			foreach ($parameters as $key => $value){
-				if (is_bool($value)){ //convert bool to string
-					$value = var_export($value, true);
-				}
-				$temp[] = $key."=".rawurlencode($value);	
-			}
-			return "?".implode("&", $temp);
-		} else {
-			return "";
-		}
-	}
 
 	/**
 	 * Autoloader for file dependencies

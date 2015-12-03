@@ -2,8 +2,8 @@
 require_once ('Mapbox.php');
 
 /**
- * Test methods for Mapbox API. Not for production use.
- * @author Tyler
+ * Test methods for Mapbox API.
+ * @author twbell
  * @package Mapbox
  * @license Apache 2.0
  */
@@ -11,7 +11,6 @@ class MapboxTest {
 
 	private $mapbox;
 	private $writeToFile = null;
-
 
 	/**
 	 * Primary test function. 
@@ -34,9 +33,7 @@ class MapboxTest {
 			$this->testReverseGeocode();
 			$this->testGeocodePermanent();
 			//$this->testCountries();
-		
 		}
-
 
 		if (!$this->writeToFile) {
 			echo "========================\n\n";
@@ -55,7 +52,12 @@ class MapboxTest {
 	}
 
 	private function testGeocode() {
-		$res = $this->mapbox->geocode("149 9th St, San Francisco, CA 94103");
+		try {
+			$res = $this->mapbox->geocode("149 9th St, San Francisco, CA 94103");
+		} catch (Exception $e) {
+			$this->msg("Geocoder", false, $e->getMessage());
+			return false;
+		}
 		if ($res->success()){
 			$this->msg("Geocoder", true);
 		} else {
@@ -106,7 +108,7 @@ class MapboxTest {
 	 */
 	private function testConnect() {
 		$str = "Mapbox Authentication";
-		if (file_get_contents("https://api.mapbox.com?".$this->mapbox->token) == "{\"api\":\"mapbox\"}"){
+		if (file_get_contents("https://api.mapbox.com?".$this->mapbox->gettoken()) == "{\"api\":\"mapbox\"}"){
 			$this->msg($str, true);
 		} else {
 			$this->msg($str, false);
@@ -120,7 +122,8 @@ class MapboxTest {
 	private function testExt() {
 		$modules = array (
 			"SPL",
-			"curl"
+			"curl",
+			"json"
 		);
 		$ext = array_flip(get_loaded_extensions());
 		foreach ($modules as $module) {
