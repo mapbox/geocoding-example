@@ -5,7 +5,7 @@ Examples of how to use the Mapbox geocoder. We do our best to make our [geocodin
 
 This repo is a work in progress. Don't see your favorite language? [Open a ticket](https://github.com/mapbox/geocoding-example/issues/new)!
 
-Please consult individual subdirectories' README files for more specific installation instructions and notes.
+Please consult individual subdirectories' README files for more specific installation instructions and notes.  PHP Examples are available in the [Mapbox PHP SDK Repo](https://github.com/mapbox/mapbox-sdk-php).
 
 ## Note
 
