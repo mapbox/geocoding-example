@@ -6,7 +6,7 @@ Results are stored in an output directory as JSON files.
 
 ## Requirements
 
-- [gevent 1.1a2 or later](https://pypi.python.org/pypi/gevent)
+- [gevent 1.1.2 or later](https://pypi.python.org/pypi/gevent)
 - [requests](http://docs.python-requests.org/en/latest/)
 - A Mapbox access token with batch geocoding capabilities (email sales@mapbox.com)
 
