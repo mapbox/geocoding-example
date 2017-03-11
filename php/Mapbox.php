@@ -1,6 +1,6 @@
 <?php
 /**
- * Requires PHP5, SPL, cURL (for autoloading)
+ * Requires PHP5, SPL (for autoloading) and cURL
  */
 
 /**
