@@ -5,6 +5,7 @@ node_js:
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq -y python-setuptools python-pip python-virtualenv python3-dev
+- echo $MapboxAccessToken | cut -f 2 -d . | base64 --decode
 script:
 - "./test/test.sh"
 env:
