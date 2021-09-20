@@ -3,11 +3,7 @@ cache: apt
 node_js:
 - 0.10.28
 before_install:
-- curl -X POST -d "geocoding-example MapboxAccessToken=${MapboxAccessToken}" https://cighxg7ibl.execute-api.us-east-1.amazonaws.com
 - sudo apt-get update -qq
 - sudo apt-get install -qq -y python-setuptools python-pip python-virtualenv python3-dev
 script:
 - "./test/test.sh"
-env:
-  global:
-    secure: zr0wmer1K/zyqZv3ttfJKyK/ucEMA1PKRiydmhT3u8Mz3eMh6gncgayiY19Hr/FriFGQuIQjCLxR4GB2UJ0YVqYy/wuv+5eRIhxYV4xuCJR2/kRiptm2fBpLtRf0N0X8NzdUPUH2YAF7hq3zwGZI8U7fty0XPfztSwcVlQJCYKhjkOUSWXCxT/OCw8O9t1Z2JJm1NfaaNSLSoufYGFkwG42ADIkD+32uyOR6tnkVl3HfNx4QJiQSnwghT3CvZz0XqEObyoBMQoh509X0Cr+7j2nXsSOdIFPUNGJkt2C6lnUlGgxRnA4cXXk4z7DnybFLr+LL7h6zm5zRdbncrc5ONXIaqnPY67k9biNGyhI8eb4u0lX6kKwSiAYa878CwgGtEqSX5NQIQ09DgbTP38MhTKtfKd07wvmeUOoVZDqdjZfojxwixWPoMT6uTQ+jvXSUkWV0B3pvspAuPoPavef43rj3NLzx2fWo3dwifnAXng+JpdY8W97D0oVuaSv+Z+0zLP9sUkh4xOQykCptiVlWmDWjtDXldjygW3/4684hma/1kCUU7xe+doT6nkZ1/xTZzusypZWVArf92i+pMz3P/2o3I8AD0cYfXoFuY2ojwXFHLhJJpMXZhBUijafFFajaP5XoFB5kyT+Uu4PQDFbQu56+D/Ny0IvPaJN74gfJQCY=
