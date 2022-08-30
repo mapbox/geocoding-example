@@ -1,21 +1,23 @@
-#Introduction
+# Introduction
 This is the official PHP driver for the [Mapbox API](https://www.mapbox.com/developers/api/). It is crafted with artisanal skill from native hardwoods.
 
 The PHP driver currently supports geocoding, reverse geocoding, and permanent geocoding APIs.  Others follow.
 
-#PHP Specifics 
-##Dependencies
+# PHP Specifics 
+
+## Dependencies
 * PHP >=5.1.2 is required. 
 * The php5-curl module is required. 
 * SPL is required for autoloading.
 * JSON is required.  Some distributions as of PHP 5.5rc2 lack the previously included JSON extension due to a license conflict.  Use <tt>sudo apt-get install php5-json</tt>.
 
-##Autoloading
+## Autoloading
 All classes are autoloaded.  Just <tt>require_once("Mapbox.php")</tt> and you're laughing.
 
 The PHP <tt>__autoload()</tt> method is deprecated; this library uses <tt>spl_autoload_register()</tt>.  The Mapbox Autoload will not mess with other libraries or frameworks.
 
-#Getting Started
+# Getting Started
+
 ## Get a Mapbox Token
 [Register with Mapbox](https://www.mapbox.com/studio/signup/) for free access to most Mapbox services.  Go to the [API Token page](https://www.mapbox.com/studio/account/tokens/) to get or create an API token.
 
